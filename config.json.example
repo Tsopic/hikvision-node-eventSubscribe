@@ -1,0 +1,6 @@
+{
+    "host":"192.168.88.64",
+    "port":"80",
+    "user": "admin",
+    "password": "admin" 
+}

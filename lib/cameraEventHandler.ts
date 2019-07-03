@@ -7,8 +7,8 @@ var Events = require("events");
 export class CameraEventHandler extends Events {
   activeEvents: any = {};
   triggerActive = false;
-  debug = false;
-  ipAddress: string = "127.0.0.1";
+  debug = true;
+  ipAddress: string = "120.0.0.1";
   port: number = 80;
   username: string = "admin";
   password: string = "";
@@ -21,6 +21,10 @@ export class CameraEventHandler extends Events {
     this.password = password;
     this.activeEvents = {};
     this.connect();
+    this.handleConnection = this.handleConnection.bind(this);
+    this.handleEnd = this.handleEnd.bind(this);
+    this.handleData = this.handleData.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
 
   connect(): void {
@@ -43,15 +47,13 @@ export class CameraEventHandler extends Events {
 
     client.on("data", (data: any) => this.handleData(data));
 
-    client.on("close", function() {
+    client.on("close", () => {
       // Try to reconnect after 30s
-      setTimeout(this.connect(), 30000);
+      setTimeout(() => this.connect(), 30000);
       this.handleEnd();
     });
 
-    client.on("error", function(err: any) {
-      this.handleError(err);
-    });
+    client.on("error", (err: any) => this.handleError(err));
   }
 
   // Handle alarms
