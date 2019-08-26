@@ -4,8 +4,6 @@ const config = require("./config.json");
 
 const cam = new CameraEventHandler(config.host, config.port, config.user, config.password);
 
-console.log("running script index")
-
 cam.on("error", function(err){
     console.log("error", err);
 })
