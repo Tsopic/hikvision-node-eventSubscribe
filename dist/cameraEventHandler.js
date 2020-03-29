@@ -60,7 +60,11 @@ class CameraEventHandler extends Events {
         if (result) {
             var code = result.EventNotificationAlert["eventType"][0];
             var action = result.EventNotificationAlert["eventState"][0];
-            var index = parseInt(result.EventNotificationAlert["channelID"][0]);
+            try{
+                var index = parseInt(result.EventNotificationAlert["channelID"][0]);
+            }catch(err){
+                var index = parseInt(result.EventNotificationAlert["dynChannelID"][0]);
+            }
             var count = parseInt(result.EventNotificationAlert["activePostCount"][0]);
             // give codes returned by camera prettier and standardized description
             if (code === "IO") {
